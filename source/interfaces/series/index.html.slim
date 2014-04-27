@@ -1,0 +1,43 @@
+doctype html
+html
+  head
+    meta charset="utf-8"
+    meta content="IE=edge,chrome=1" http-equiv="X-UA-Compatible"
+    title InfluxDB Administration
+
+    = stylesheet_link_tag "interfaces/default"
+    = javascript_include_tag "vendor/jquery-2.0.3.js"
+    = javascript_include_tag "interfaces/series"
+
+  body class="#{page_classes}"
+    section.main
+      .row
+        .large-12.columns
+          div ng-app="adminApp" ng-controller="AdminIndexCtrl"
+            .row
+              .large-12.columns
+                .row
+                  .large-12.columns
+                    h2 Database Series
+                .row
+                  .large-3.columns
+                    input type="text" ng-model="search"
+                  .large-3.columns.end
+                    a.button.tiny ng-click="fetchSeries()" Refresh
+                .row
+                  .large-12.columns
+                    dl.accordion(data-accordion)
+                      dd.series ng-repeat="series in data"
+                        a ng-href="{{'#' + series.name.replace('.', '-')}}"
+                          | {{series.name}}
+                        div.content id="{{series.name.replace('.', '-')}}"
+                          .row
+                            table.large-6.end
+                              thead
+                                tr
+                                  th Columns
+                              tbody
+                                tr ng-repeat="column in series.columns"
+                                  td
+                                    | {{column}}
+    = javascript_include_tag "vendor/foundation.min"
